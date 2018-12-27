@@ -4,13 +4,69 @@ import { UsuariosLista } from '../classes/usuarios-lista';
 import { Usuario } from '../classes/usuario';
 import { Marcador } from '../classes/marcador';
 import { mapa } from '../controllers/mapas';
+import { ticket } from '../controllers/tickets'
+
 
 //USUARIOS CONECTADOS
 //aqui tengo una instancia de la lista de usuarios, aqui tengo acceso a todas las funciones de la lista
 export const usauriosConectados = new UsuariosLista();
 
+//COLAS TICKETS
 
-//MAPAS***************************************
+export const liberarEscritorio = (cliente: Socket) => {
+
+    cliente.on('liberarEscritorio', (escritorio: number, callback ) => {
+
+        //Muestro en el FRONT los escritorios existentes :)
+        callback(ticket.liberarEscritorio( escritorio ));
+    }); 
+}
+
+export const ultimos4 = (cliente: Socket) => {
+
+    cliente.on('ultimos4', (data, callback) => {
+
+        // respond con los ultimos 4 que se esta atendiendo!!!
+        callback(ticket.getUltimos4());
+    }); 
+}
+
+export const existe = (cliente: Socket) => {
+    
+    cliente.on('existe', (escritorio, callback) => {
+        
+        callback( ticket.checkEscritorios(escritorio) );
+    });
+}
+
+export const nuevoTicket = (cliente: Socket) => {
+
+    cliente.on('nuevo-ticket', (data, callback) => {
+
+        //De esta forma yo puedo responder a quien me esta emitiendo a traves del callback
+        let siguiente = ticket.siguiente();
+        callback(siguiente);
+
+        //Tambien puedo responder de esta forma generando un emit() y que tdos lo escuchen
+        cliente.broadcast.emit('nuevos-ticket', siguiente);
+    });
+}
+
+export const atenderTicket = (cliente: Socket) => {
+
+    cliente.on('atender-ticket', (escritorio: number, callback) => {
+
+        let atendiendo = ticket.atenderTicket(escritorio);
+        // let ultimoAtendido = ticket.getUltimos4()[0].numero;
+
+        callback( atendiendo );        
+
+        //Cuando atiendo a un ticket, en ves de responder con el ticket atendido en un evento diferente, lo que hice fue responder el ticket atendido en el callback y emitir ubn evento que me actualice los ultimos4
+        cliente.broadcast.emit('aumentar-ticket', ticket.getUltimos4());
+    });
+}
+
+//MAPAS
 
 export const marcadorNuevo = (cliente: Socket) => {
 

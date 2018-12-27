@@ -15,7 +15,7 @@ export class UsuariosLista{
 
         this.lista.push( usuarios );
 
-        console.log( this.lista );
+        // console.log( this.lista );
 
         return usuarios;
         
@@ -32,8 +32,8 @@ export class UsuariosLista{
             }
         }
 
-        console.log('------------Actualizando Usuario-----------');
-        console.log( this.lista );
+        // console.log('------------Actualizando Usuario-----------');
+        // console.log( this.lista );
         
         
     }
@@ -55,7 +55,7 @@ export class UsuariosLista{
         return this.lista.filter( usuario => usuario.sala === sala );
     }
 
-    //BORRAR USAURIO
+    // BORRAR USAURIO
     public borrarUsuario( id: string ){
 
         const tempUsuario = this.getUsuario( id );

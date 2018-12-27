@@ -54,6 +54,22 @@ export default class Server {
             //cuando se conecta, automaticamente se le asigna un id
             // console.log( cliente.id );
 
+
+            //TICKETS
+
+            //EXISTE ESCRITORIO???
+            socketConfig.existe(cliente);
+            socketConfig.liberarEscritorio(cliente);
+
+            //ESCUCHAR NUEVOS TICKETS
+            socketConfig.ultimos4(cliente);
+
+            //ESCUCHAR NUEVOS TICKETS
+            socketConfig.nuevoTicket(cliente);
+
+            //ATENDER NUEVOS TICKETS
+            socketConfig.atenderTicket(cliente);
+
             //ESCUCHAR MARCADORES NUEVOS
             socketConfig.marcadorNuevo(cliente);
 
@@ -62,6 +78,8 @@ export default class Server {
 
             //ESCUCHAR MARCADORES MOVER
             socketConfig.moverMarcador(cliente);
+
+
 
 
             //CONECTAR CLIENTE
@@ -85,6 +103,7 @@ export default class Server {
 
     start(callback: Function) {
 
+        // this.app.listen(this.port, callback);
         this.httpServer.listen(this.port, callback);
 
     }

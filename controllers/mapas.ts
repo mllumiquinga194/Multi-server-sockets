@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import Server from '../classes/server';
 import { Mapa } from '../classes/mapa';
+import { TicketControl } from '../classes/ticket-control';
 
 export const mapa = new Mapa();
-//const server = Server.instance;
+export const ticket = new TicketControl();
 
 const lugares = [
     {
@@ -31,4 +31,7 @@ mapa.marcadores.push( ...lugares );
 export function getMarcadores( req: Request, res: Response ){
 
     res.json( mapa.getMarcadores() );
+    // res.json( {
+    //     data: ticket.atenderTicket(1)
+    // });
 }
