@@ -23,7 +23,6 @@ export class GraficaData{
                 this.valores[i] += valor;
             }
         } 
-
         return this.getDataGrafica();
     }
 }
